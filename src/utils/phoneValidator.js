@@ -26,6 +26,21 @@ export const detectTelco = (phoneNumber) => {
 };
 
 /**
+ * Convert scientific notation to standard form
+ * @param {string|number} value - Value that might be in scientific notation
+ * @returns {string} - Value in standard form
+ */
+const convertFromScientificNotation = (value) => {
+  const str = value.toString();
+  // Check if in scientific notation
+  if (/e/i.test(str)) {
+    // Use toLocaleString to convert, then remove commas
+    return parseFloat(value).toLocaleString('fullwide', { useGrouping: false });
+  }
+  return str;
+};
+
+/**
  * Validate and format phone number to 254XXXXXXXXX format
  * @param {string} phoneNumber - Raw phone number input
  * @returns {object} - { isValid: boolean, formatted: string, errors: string[] }
@@ -37,8 +52,11 @@ export const validateAndFormatPhone = (phoneNumber) => {
     return { isValid: false, formatted: '', errors: ['Phone number is empty'] };
   }
   
+  // Convert from scientific notation if needed
+  let phoneStr = convertFromScientificNotation(phoneNumber);
+  
   // Remove all non-digit characters
-  let cleaned = phoneNumber.toString().replace(/\D/g, '');
+  let cleaned = phoneStr.replace(/\D/g, '');
   
   // Handle common cases
   if (cleaned.startsWith('254')) {
