@@ -8,13 +8,17 @@ const TELCO_PREFIXES = {
 
 /**
  * Detect telco provider from phone number
- * @param {string} phoneNumber - Phone number in format 254XXXXXXXXX
+ * @param {string} phoneNumber - Phone number in format +254XXXXXXXXX or 254XXXXXXXXX
  * @returns {string|null} - Telco name or null if not detected
  */
 export const detectTelco = (phoneNumber) => {
   if (!phoneNumber || phoneNumber.length < 5) return null;
   
-  const prefix = phoneNumber.substring(3, 6);
+  // Remove + prefix if present
+  const cleanNumber = phoneNumber.replace(/^\+/, '');
+  
+  // Extract the 3-digit prefix (positions 3-6 in 254XXXXXXXXX)
+  const prefix = cleanNumber.substring(3, 6);
   
   for (const [telco, prefixes] of Object.entries(TELCO_PREFIXES)) {
     if (prefixes.includes(prefix)) {
@@ -41,7 +45,7 @@ const convertFromScientificNotation = (value) => {
 };
 
 /**
- * Validate and format phone number to 254XXXXXXXXX format
+ * Validate and format phone number to +254XXXXXXXXX format
  * @param {string} phoneNumber - Raw phone number input
  * @returns {object} - { isValid: boolean, formatted: string, errors: string[] }
  */
@@ -99,7 +103,7 @@ export const validateAndFormatPhone = (phoneNumber) => {
   
   return {
     isValid,
-    formatted: isValid ? cleaned : '',
+    formatted: isValid ? '+' + cleaned : '',
     errors
   };
 };

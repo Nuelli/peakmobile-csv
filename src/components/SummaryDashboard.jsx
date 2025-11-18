@@ -54,7 +54,10 @@ function SummaryDashboard({ stats, onRemoveDuplicates, onSortByBundle, bundleCol
       {/* Telco Distribution */}
       {Object.keys(stats.telcoCounts).length > 0 && (
         <div className="mb-6 pb-6 border-b border-gray-200">
-          <h3 className="font-semibold text-gray-900 mb-3">Telco Distribution</h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold text-gray-900">Telco Distribution</h3>
+            <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Approximate*</span>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {Object.entries(stats.telcoCounts).map(([telco, count]) => (
               <div key={telco} className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -63,6 +66,7 @@ function SummaryDashboard({ stats, onRemoveDuplicates, onSortByBundle, bundleCol
               </div>
             ))}
           </div>
+          <p className="text-xs text-gray-500 mt-3">* Results are approximate due to number portability in Kenya. Actual telco may differ from detected provider.</p>
         </div>
       )}
 
