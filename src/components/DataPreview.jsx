@@ -20,6 +20,11 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
 
     const exportData = data.map(row => {
       const newRow = { ...row };
+      // Replace original phone column with formatted phone number
+      if (phoneColumn && row._formattedPhone) {
+        newRow[phoneColumn] = row._formattedPhone;
+      }
+      // Remove internal fields
       delete newRow._index;
       delete newRow._originalPhone;
       delete newRow._formattedPhone;
@@ -54,7 +59,8 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
   };
 
   const handleEditSave = (rowIndex, field) => {
-    onEditRow(rowIndex, field, editValue);
+    // Always save to _originalPhone field to trigger revalidation
+    onEditRow(rowIndex, '_originalPhone', editValue);
     setEditingCell(null);
   };
 
@@ -197,7 +203,7 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                         {editingCell?.rowIndex === idx ? (
                           <>
                             <button
-                              onClick={() => handleEditSave(idx, selectedPhoneCol)}
+                              onClick={() => handleEditSave(idx, '_originalPhone')}
                               className="p-1 text-green-600 hover:bg-green-100 rounded transition"
                               title="Save"
                             >
