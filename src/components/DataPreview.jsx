@@ -66,14 +66,19 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
     saveAs(blob, filename);
   };
 
-  const handleEditStart = (rowIndex) => {
-    setEditingCell({ rowIndex, field: selectedPhoneCol });
-    setEditValue(data[rowIndex][selectedPhoneCol] || '');
+  const handleEditStart = (rowIndex, field) => {
+    setEditingCell({ rowIndex, field });
+    setEditValue(data[rowIndex][field] || '');
   };
 
-  const handleEditSave = (rowIndex) => {
-    // Save to _originalPhone field to trigger revalidation and column update
-    onEditRow(rowIndex, '_originalPhone', editValue);
+  const handleEditSave = (rowIndex, field) => {
+    if (field === selectedPhoneCol) {
+      // For phone column, save to _originalPhone field to trigger revalidation
+      onEditRow(rowIndex, '_originalPhone', editValue);
+    } else {
+      // For other columns, save directly to the field
+      onEditRow(rowIndex, field, editValue);
+    }
     setEditingCell(null);
   };
 
@@ -188,15 +193,41 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                 {columns.map(col => (
                   <td key={col} className="px-4 py-3 text-gray-700">
                     {editingCell?.rowIndex === idx && editingCell?.field === col ? (
-                      <input
-                        type="text"
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        className="w-full px-2 py-1 border border-indigo-500 rounded focus:ring-2 focus:ring-indigo-500"
-                        autoFocus
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={editValue}
+                          onChange={(e) => setEditValue(e.target.value)}
+                          className="flex-1 px-2 py-1 border border-indigo-500 rounded focus:ring-2 focus:ring-indigo-500"
+                          autoFocus
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') handleEditSave(idx, col);
+                            if (e.key === 'Escape') handleEditCancel();
+                          }}
+                        />
+                        <button
+                          onClick={() => handleEditSave(idx, col)}
+                          className="p-1 text-green-600 hover:bg-green-100 rounded transition"
+                          title="Save"
+                        >
+                          <Save className="w-3 h-3" />
+                        </button>
+                        <button
+                          onClick={handleEditCancel}
+                          className="p-1 text-gray-600 hover:bg-gray-200 rounded transition"
+                          title="Cancel"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
                     ) : (
-                      <span>{row[col]}</span>
+                      <span 
+                        className="cursor-pointer hover:bg-gray-100 rounded px-1 py-1 transition"
+                        onClick={() => handleEditStart(idx, col)}
+                        title="Click to edit"
+                      >
+                        {row[col]}
+                      </span>
                     )}
                   </td>
                 ))}
@@ -220,41 +251,13 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex gap-2">
-                        {editingCell?.rowIndex === idx ? (
-                          <>
-                            <button
-                              onClick={() => handleEditSave(idx)}
-                              className="p-1 text-green-600 hover:bg-green-100 rounded transition"
-                              title="Save"
-                            >
-                              <Save className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={handleEditCancel}
-                              className="p-1 text-gray-600 hover:bg-gray-200 rounded transition"
-                              title="Cancel"
-                            >
-                              <X className="w-4 h-4" />
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              onClick={() => handleEditStart(idx)}
-                              className="p-1 text-blue-600 hover:bg-blue-100 rounded transition"
-                              title="Edit"
-                            >
-                              <Edit2 className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => onDeleteRow(idx)}
-                              className="p-1 text-red-600 hover:bg-red-100 rounded transition"
-                              title="Delete"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </>
-                        )}
+                        <button
+                          onClick={() => onDeleteRow(idx)}
+                          className="p-1 text-red-600 hover:bg-red-100 rounded transition"
+                          title="Delete Row"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </td>
                   </>
