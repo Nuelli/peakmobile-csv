@@ -194,9 +194,11 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                       </div>
                     ) : (
                       <div 
-                        className="flex items-center gap-1 cursor-pointer hover:bg-red-100 rounded px-2 py-1 transition"
+                        className="flex items-center gap-1 cursor-pointer rounded px-2 py-1 transition"
                         onClick={() => setErrorPopup({ rowIndex: idx, errors: row._errors || [] })}
                         title="Click to view errors"
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#dbeafe'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
                       >
                         <AlertCircle className="w-5 h-5 text-red-600" />
                         <span className="text-red-700 text-xs font-semibold">Invalid</span>
@@ -221,24 +223,30 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                         />
                         <button
                           onClick={() => handleEditSave(idx, col)}
-                          className="p-1 text-green-600 hover:bg-green-100 rounded transition"
+                          className="p-1 text-green-600 rounded transition"
                           title="Save"
+                          onMouseEnter={(e) => e.target.style.backgroundColor = '#dbeafe'}
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
                         >
                           <Save className="w-3 h-3" />
                         </button>
                         <button
                           onClick={handleEditCancel}
-                          className="p-1 text-gray-600 hover:bg-gray-200 rounded transition"
+                          className="p-1 text-gray-600 rounded transition"
                           title="Cancel"
+                          onMouseEnter={(e) => e.target.style.backgroundColor = '#dbeafe'}
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
                         >
                           <X className="w-3 h-3" />
                         </button>
                       </div>
                     ) : (
                       <span 
-                        className="cursor-pointer hover:bg-gray-100 rounded px-1 py-1 transition"
+                        className="cursor-pointer rounded px-1 py-1 transition"
                         onClick={() => handleEditStart(idx, col)}
                         title="Click to edit"
+                        onMouseEnter={(e) => e.target.style.backgroundColor = '#dbeafe'}
+                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
                       >
                         {row[col]}
                       </span>
@@ -267,8 +275,10 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                       <div className="flex gap-2">
                         <button
                           onClick={() => onDeleteRow(idx)}
-                          className="p-1 text-red-600 hover:bg-red-100 rounded transition"
+                          className="p-1 text-red-600 rounded transition"
                           title="Delete Row"
+                          onMouseEnter={(e) => e.target.style.backgroundColor = '#dbeafe'}
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

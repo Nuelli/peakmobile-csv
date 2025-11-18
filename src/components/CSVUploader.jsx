@@ -46,7 +46,11 @@ function CSVUploader({ onUpload }) {
             Select a CSV file containing customer data (phone numbers, airtime allocations, etc.)
           </p>
 
-          <div className="border-2 border-dashed border-indigo-300 rounded-lg p-8 mb-6 hover:border-indigo-500 transition">
+          <div 
+            className="border-2 border-dashed border-indigo-300 rounded-lg p-8 mb-6 transition"
+            onMouseEnter={(e) => e.target.style.borderColor = '#CC5801'}
+            onMouseLeave={(e) => e.target.style.borderColor = '#a5b4fc'}
+          >
             <input
               ref={fileInputRef}
               type="file"

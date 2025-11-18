@@ -75,7 +75,9 @@ function SummaryDashboard({ stats, onRemoveDuplicates, onSortByBundle, bundleCol
         {stats.duplicateCount > 0 && (
           <button
             onClick={onRemoveDuplicates}
-            className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+            className="flex items-center gap-2 bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#CC5801'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#ea580c'}
           >
             <Trash2 className="w-4 h-4" />
             Remove Duplicates ({stats.duplicateCount})
