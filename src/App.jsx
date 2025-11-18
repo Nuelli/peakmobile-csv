@@ -140,11 +140,13 @@ function App() {
       {/* Header */}
       <div className="bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <Upload className="w-8 h-8 text-indigo-600" />
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">CSV Data Cleaner</h1>
-              <p className="text-gray-600">PeakMobile Smart Data Validation & Cleaning Tool</p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <img src="/peak-logo.png" alt="PeakMobile" className="h-24" />
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">CSV Data Cleaner</h1>
+                <p className="text-gray-600">Smart Data Validation & Cleaning Tool</p>
+              </div>
             </div>
           </div>
         </div>
