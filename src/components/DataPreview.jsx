@@ -8,17 +8,23 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
   const [editingCell, setEditingCell] = useState(null);
   const [editValue, setEditValue] = useState('');
   const [errorPopup, setErrorPopup] = useState(null);
+  const [downloadPopup, setDownloadPopup] = useState(null);
 
   const handleProcessClick = () => {
     onProcessData(selectedPhoneCol, selectedBundleCol);
   };
 
-  const handleExportCSV = (validOnly = false) => {
+  const handleDownloadRequest = (validOnly = false) => {
     if (!isProcessed) {
       alert('Please process the data first');
       return;
     }
+    
+    // Show download options popup
+    setDownloadPopup({ validOnly });
+  };
 
+  const handleExportCSV = (validOnly = false, includeTelco = false) => {
     let exportData = data;
     
     // Filter to valid records only if requested
@@ -35,6 +41,10 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
       // Replace original phone column with formatted phone number
       if (phoneColumn && row._formattedPhone) {
         newRow[phoneColumn] = row._formattedPhone;
+      }
+      // Add telco column if requested
+      if (includeTelco && row._telco) {
+        newRow['Telco'] = row._telco;
       }
       // Remove internal fields
       delete newRow._index;
@@ -61,9 +71,13 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
       )
     ].join('\n');
 
-    const filename = validOnly ? 'valid_records_only.csv' : 'cleaned_data.csv';
+    const telcoSuffix = includeTelco ? '_with_telco' : '';
+    const filename = validOnly ? `valid_records_only${telcoSuffix}.csv` : `cleaned_data${telcoSuffix}.csv`;
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, filename);
+    
+    // Close popup
+    setDownloadPopup(null);
   };
 
   const handleEditStart = (rowIndex, field) => {
@@ -292,14 +306,14 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
         {isProcessed && (
           <>
             <button
-              onClick={() => handleExportCSV(false)}
+              onClick={() => handleDownloadRequest(false)}
               className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition"
             >
               <Download className="w-4 h-4" />
               Download CSV
             </button>
             <button
-              onClick={() => handleExportCSV(true)}
+              onClick={() => handleDownloadRequest(true)}
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
             >
               <Download className="w-4 h-4" />
@@ -349,6 +363,68 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                 className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition"
               >
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Download Options Popup Modal */}
+      {downloadPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setDownloadPopup(null)}>
+          <div className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <Download className="w-5 h-5 text-blue-600" />
+                Download Options
+              </h3>
+              <button
+                onClick={() => setDownloadPopup(null)}
+                className="text-gray-400 hover:text-gray-600 transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="mb-6">
+              <p className="text-gray-600 text-sm mb-4">
+                {downloadPopup.validOnly 
+                  ? 'Download valid records only with the following options:'
+                  : 'Download all processed records with the following options:'
+                }
+              </p>
+              <div className="space-y-3">
+                <button
+                  onClick={() => handleExportCSV(downloadPopup.validOnly, false)}
+                  className="w-full flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <Download className="w-4 h-4 text-gray-600" />
+                    <div className="text-left">
+                      <p className="font-medium text-gray-900">Standard CSV</p>
+                      <p className="text-sm text-gray-600">Original columns with cleaned phone numbers</p>
+                    </div>
+                  </div>
+                </button>
+                <button
+                  onClick={() => handleExportCSV(downloadPopup.validOnly, true)}
+                  className="w-full flex items-center justify-between p-3 border border-blue-200 rounded-lg hover:bg-blue-50 transition bg-blue-25"
+                >
+                  <div className="flex items-center gap-3">
+                    <Download className="w-4 h-4 text-blue-600" />
+                    <div className="text-left">
+                      <p className="font-medium text-blue-900">CSV with Telco Column</p>
+                      <p className="text-sm text-blue-700">Includes an additional 'Telco' column with provider information</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setDownloadPopup(null)}
+                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition"
+              >
+                Cancel
               </button>
             </div>
           </div>
