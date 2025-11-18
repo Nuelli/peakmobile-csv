@@ -13,13 +13,24 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
     onProcessData(selectedPhoneCol, selectedBundleCol);
   };
 
-  const handleExportCSV = () => {
+  const handleExportCSV = (validOnly = false) => {
     if (!isProcessed) {
       alert('Please process the data first');
       return;
     }
 
-    const exportData = data.map(row => {
+    let exportData = data;
+    
+    // Filter to valid records only if requested
+    if (validOnly) {
+      exportData = data.filter(row => row._isValid);
+      if (exportData.length === 0) {
+        alert('No valid records found to export');
+        return;
+      }
+    }
+
+    const processedData = exportData.map(row => {
       const newRow = { ...row };
       // Replace original phone column with formatted phone number
       if (phoneColumn && row._formattedPhone) {
@@ -36,10 +47,10 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
       return newRow;
     });
 
-    const headers = Object.keys(exportData[0] || {});
+    const headers = Object.keys(processedData[0] || {});
     const csv = [
       headers.join(','),
-      ...exportData.map(row =>
+      ...processedData.map(row =>
         headers.map(h => {
           const val = row[h];
           if (typeof val === 'string' && (val.includes(',') || val.includes('"'))) {
@@ -50,8 +61,9 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
       )
     ].join('\n');
 
+    const filename = validOnly ? 'valid_records_only.csv' : 'cleaned_data.csv';
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'cleaned_data.csv');
+    saveAs(blob, filename);
   };
 
   const handleEditStart = (rowIndex) => {
@@ -275,13 +287,22 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-3">
         {isProcessed && (
-          <button
-            onClick={handleExportCSV}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-          >
-            <Download className="w-4 h-4" />
-            Download Cleaned CSV
-          </button>
+          <>
+            <button
+              onClick={() => handleExportCSV(false)}
+              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+            >
+              <Download className="w-4 h-4" />
+              Download CSV
+            </button>
+            <button
+              onClick={() => handleExportCSV(true)}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+            >
+              <Download className="w-4 h-4" />
+              Download Valid Records Only
+            </button>
+          </>
         )}
         <button
           onClick={onReset}
