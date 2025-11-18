@@ -95,6 +95,10 @@ function App() {
       updated[index]._isValid = validation.isValid;
       updated[index]._errors = validation.errors;
       updated[index]._telco = telco;
+      // Also update the original column data so it displays the new value
+      if (phoneColumn) {
+        updated[index][phoneColumn] = value;
+      }
     }
     
     setProcessedData(updated);

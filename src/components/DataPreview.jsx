@@ -53,13 +53,13 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
     saveAs(blob, 'cleaned_data.csv');
   };
 
-  const handleEditStart = (rowIndex, field) => {
-    setEditingCell({ rowIndex, field });
-    setEditValue(data[rowIndex][field] || '');
+  const handleEditStart = (rowIndex) => {
+    setEditingCell({ rowIndex, field: selectedPhoneCol });
+    setEditValue(data[rowIndex][selectedPhoneCol] || '');
   };
 
-  const handleEditSave = (rowIndex, field) => {
-    // Always save to _originalPhone field to trigger revalidation
+  const handleEditSave = (rowIndex) => {
+    // Save to _originalPhone field to trigger revalidation and column update
     onEditRow(rowIndex, '_originalPhone', editValue);
     setEditingCell(null);
   };
@@ -206,7 +206,7 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                         {editingCell?.rowIndex === idx ? (
                           <>
                             <button
-                              onClick={() => handleEditSave(idx, '_originalPhone')}
+                              onClick={() => handleEditSave(idx)}
                               className="p-1 text-green-600 hover:bg-green-100 rounded transition"
                               title="Save"
                             >
@@ -223,7 +223,7 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                         ) : (
                           <>
                             <button
-                              onClick={() => handleEditStart(idx, selectedPhoneCol)}
+                              onClick={() => handleEditStart(idx)}
                               className="p-1 text-blue-600 hover:bg-blue-100 rounded transition"
                               title="Edit"
                             >
