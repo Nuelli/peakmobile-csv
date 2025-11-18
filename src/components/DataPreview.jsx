@@ -7,6 +7,7 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
   const [selectedBundleCol, setSelectedBundleCol] = useState(bundleColumn);
   const [editingCell, setEditingCell] = useState(null);
   const [editValue, setEditValue] = useState('');
+  const [errorPopup, setErrorPopup] = useState(null);
 
   const handleProcessClick = () => {
     onProcessData(selectedPhoneCol, selectedBundleCol);
@@ -161,7 +162,11 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                         <span className="text-green-700 text-xs font-semibold">Valid</span>
                       </div>
                     ) : (
-                      <div className="flex items-center gap-1">
+                      <div 
+                        className="flex items-center gap-1 cursor-pointer hover:bg-red-100 rounded px-2 py-1 transition"
+                        onClick={() => setErrorPopup({ rowIndex: idx, errors: row._errors || [] })}
+                        title="Click to view errors"
+                      >
                         <AlertCircle className="w-5 h-5 text-red-600" />
                         <span className="text-red-700 text-xs font-semibold">Invalid</span>
                       </div>
@@ -286,6 +291,45 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
           Upload New File
         </button>
       </div>
+
+      {/* Error Popup Modal */}
+      {errorPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setErrorPopup(null)}>
+          <div className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-red-900 flex items-center gap-2">
+                <AlertCircle className="w-5 h-5" />
+                Row {errorPopup.rowIndex + 1} - Validation Errors
+              </h3>
+              <button
+                onClick={() => setErrorPopup(null)}
+                className="text-gray-400 hover:text-gray-600 transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="space-y-2">
+              {errorPopup.errors.length > 0 ? (
+                errorPopup.errors.map((error, idx) => (
+                  <div key={idx} className="bg-red-50 border border-red-200 rounded p-3">
+                    <p className="text-red-800 text-sm">{error}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-600 text-sm">No specific errors found.</p>
+              )}
+            </div>
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => setErrorPopup(null)}
+                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
