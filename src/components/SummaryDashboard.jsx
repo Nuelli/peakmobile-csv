@@ -80,7 +80,10 @@ function SummaryDashboard({ stats, onRemoveDuplicates, onSortByBundle, bundleCol
         {bundleColumn && (
           <button
             onClick={onSortByBundle}
-            className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+            className="flex items-center gap-2 text-white font-semibold py-2 px-4 rounded-lg transition"
+            style={{ backgroundColor: '#151E3D' }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#CC5801'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
           >
             <SortAsc className="w-4 h-4" />
             Sort by Bundle Size
