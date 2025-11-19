@@ -1,8 +1,6 @@
 # PeakMobile CSV Data Cleaner & Uploader 
 live version: https://peakmobile-csv.vercel.app/
 <img width="1156" height="916" alt="image" src="https://github.com/user-attachments/assets/0f05a5e7-0542-4db0-bfb1-50000851ca0a" />
-
-
 A smart, lightweight web-based tool for cleaning, validating and standardizing CSV data before upload to backend systems. Specifically designed for PeakMobile's customer data (phone numbers, airtime allocations, etc.)
 
 ## Features
@@ -23,7 +21,10 @@ A smart, lightweight web-based tool for cleaning, validating and standardizing C
 - **Smart Auto-Fix** - Automatically handles common phone number formats:
 - **Telco Detection** - Identifies likely telco provider (Safaricom, Airtel, Telkom, Equitel etc) based on phone number prefixes
 - **Visual Telco Indicators** - badges/tags showing detected telco
-- etc
+- Many more
+- Smart logs and downloads section
+  <img width="1295" height="431" alt="image" src="https://github.com/user-attachments/assets/345d34bd-8968-4609-8d5d-c938b2c2758e" />
+
 
 
 ### Tech stack
