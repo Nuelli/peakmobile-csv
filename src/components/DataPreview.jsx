@@ -146,7 +146,7 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                 onClick={handleProcessClick}
                 className="w-full text-white font-semibold py-2 px-4 rounded-lg transition"
                 style={{ backgroundColor: '#151E3D' }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#CC5801'}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#a84a03ff'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
               >
                 Validate & Process
@@ -318,14 +318,20 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
           <>
             <button
               onClick={() => handleDownloadRequest(false)}
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+              className="flex items-center gap-2 text-white font-semibold py-2 px-4 rounded-lg transition"
+              style={{ backgroundColor: '#151E3D' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#a84a03ff'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
             >
               <Download className="w-4 h-4" />
               Download CSV
             </button>
             <button
               onClick={() => handleDownloadRequest(true)}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+              className="flex items-center gap-2 text-white font-semibold py-2 px-4 rounded-lg transition"
+              style={{ backgroundColor: '#151E3D' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#a84a03ff'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
             >
               <Download className="w-4 h-4" />
               Download Valid Records Only
@@ -334,7 +340,10 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
         )}
         <button
           onClick={onReset}
-          className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+          className="flex items-center gap-2 text-white font-semibold py-2 px-4 rounded-lg transition"
+          style={{ backgroundColor: '#151E3D' }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#a84a03ff'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
         >
           <RotateCcw className="w-4 h-4" />
           Upload New File
@@ -371,7 +380,10 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
             <div className="mt-6 flex justify-end">
               <button
                 onClick={() => setErrorPopup(null)}
-                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition"
+                className="px-4 py-2 text-white rounded-lg transition"
+                style={{ backgroundColor: '#151E3D' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#a84a03ff'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
               >
                 Close
               </button>
@@ -433,7 +445,10 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setDownloadPopup(null)}
-                className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition"
+                className="px-4 py-2 text-white rounded-lg transition"
+                style={{ backgroundColor: '#151E3D' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#a84a03ff'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
               >
                 Cancel
               </button>
