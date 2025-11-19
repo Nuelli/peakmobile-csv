@@ -54,4 +54,6 @@ A smart, lightweight web-based tool for cleaning, validating and standardizing C
    ```bash
    npm run build
    ```
-
+### Telco sources
+https://en.wikipedia.org/wiki/Telephone_numbers_in_Kenya
+https://felixrunye.medium.com/kenyan-phone-numbers-regex-ce283289943d
