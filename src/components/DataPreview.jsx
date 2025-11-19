@@ -265,14 +265,16 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                       </div>
                     ) : (
                       <div 
-                        className="flex items-center gap-2 cursor-pointer rounded px-1 py-1 transition group"
-                        onClick={() => handleEditStart(idx, col)}
-                        title="Click to edit"
-                        onMouseEnter={(e) => e.target.style.backgroundColor = '#dbeafe'}
-                        onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                        className={`flex items-center gap-2 rounded px-1 py-1 transition group ${
+                          isProcessed ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'
+                        }`}
+                        onClick={() => isProcessed && handleEditStart(idx, col)}
+                        title={isProcessed ? 'Click to edit' : 'Process data first to edit'}
+                        onMouseEnter={(e) => isProcessed && (e.target.style.backgroundColor = '#dbeafe')}
+                        onMouseLeave={(e) => isProcessed && (e.target.style.backgroundColor = 'transparent')}
                       >
                         <span>{row[col]}</span>
-                        <Edit2 className="w-3 h-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {isProcessed && <Edit2 className="w-3 h-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />}
                       </div>
                     )}
                   </td>
