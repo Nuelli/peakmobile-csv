@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Download, RotateCcw, AlertCircle, CheckCircle, Trash2, Edit2, Save, X } from 'lucide-react';
 import { saveAs } from 'file-saver';
 
@@ -9,6 +9,9 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
   const [editValue, setEditValue] = useState('');
   const [errorPopup, setErrorPopup] = useState(null);
   const [downloadPopup, setDownloadPopup] = useState(null);
+  const tableScrollRef = useRef(null);
+  const topScrollRef = useRef(null);
+  const tableRef = useRef(null);
 
   const handleProcessClick = () => {
     onProcessData(selectedPhoneCol, selectedBundleCol);
@@ -156,9 +159,29 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
         </div>
       )}
 
+      {/* Top Horizontal Scrollbar */}
+      <div className="mb-2 overflow-x-auto" ref={topScrollRef} onScroll={(e) => {
+        if (tableScrollRef.current) {
+          tableScrollRef.current.scrollLeft = e.target.scrollLeft;
+        }
+      }}>
+        <div style={{ width: tableRef.current?.scrollWidth || '100%', height: '8px', minWidth: '100%' }} />
+      </div>
+
       {/* Data Table */}
-      <div className="mb-6 overflow-x-auto">
-        <table className="w-full text-sm">
+      <div className="mb-6 overflow-x-auto" ref={tableScrollRef} onScroll={(e) => {
+        if (topScrollRef.current) {
+          topScrollRef.current.scrollLeft = e.target.scrollLeft;
+        }
+        // Update top scrollbar width when table scrolls
+        if (topScrollRef.current && tableRef.current) {
+          const topInner = topScrollRef.current.querySelector('div');
+          if (topInner) {
+            topInner.style.width = tableRef.current.scrollWidth + 'px';
+          }
+        }
+      }}>
+        <table className="w-full text-sm" ref={tableRef}>
           <thead>
             <tr className="bg-gray-50 border-b border-gray-200">
               <th className="px-4 py-3 text-left font-semibold text-gray-700 w-12">No.</th>
