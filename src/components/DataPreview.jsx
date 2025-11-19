@@ -449,7 +449,7 @@ function DataPreview({ data, columns, isProcessed, phoneColumn, bundleColumn, on
                     <Download className="w-4 h-4 text-gray-600" />
                     <div className="text-left">
                       <p className="font-medium text-gray-900">Standard CSV</p>
-                      <p className="text-sm text-gray-600">Original columns with cleaned phone numbers</p>
+                  
                     </div>
                   </div>
                 </button>
