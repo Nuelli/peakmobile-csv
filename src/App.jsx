@@ -146,7 +146,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <img src="/peak-logo.png" alt="PeakMobile" className="h-24" />
+              <img src="/peak-logo.png" alt="PeakMobile" className="h-28" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">CSV Data Cleaner</h1>
                 <p className="text-gray-600">Smart Data Validation & Cleaning Tool</p>
