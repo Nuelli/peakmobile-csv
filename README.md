@@ -22,7 +22,7 @@ A smart, lightweight web-based tool for cleaning, validating and standardizing C
   - Telco distribution breakdown
 - **Smart Auto-Fix** - Automatically handles common phone number formats:
 - **Telco Detection** - Identifies likely telco provider (Safaricom, Airtel, Telkom, Equitel etc) based on phone number prefixes
-- **Visual Telco Indicators** - Color-coded badges showing detected telco
+- **Visual Telco Indicators** - badges/tags showing detected telco
 - etc
 
 
