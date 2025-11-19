@@ -1,5 +1,7 @@
 # PeakMobile CSV Data Cleaner & Uploader 
 live version: https://peakmobile-csv.vercel.app/
+<img width="1156" height="916" alt="image" src="https://github.com/user-attachments/assets/0f05a5e7-0542-4db0-bfb1-50000851ca0a" />
+
 
 A smart, lightweight web-based tool for cleaning, validating and standardizing CSV data before upload to backend systems. Specifically designed for PeakMobile's customer data (phone numbers, airtime allocations, etc.)
 
