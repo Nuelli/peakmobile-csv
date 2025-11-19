@@ -12,6 +12,7 @@ function App() {
   const [bundleColumn, setBundleColumn] = useState(null);
   const [processedData, setProcessedData] = useState([]);
   const [stats, setStats] = useState(null);
+  const [sortDirection, setSortDirection] = useState('desc'); // 'asc' or 'desc'
 
   const handleCSVUpload = (parsedData, headers) => {
     setData(parsedData);
@@ -20,6 +21,7 @@ function App() {
     setBundleColumn(null);
     setProcessedData([]);
     setStats(null);
+    setSortDirection('desc'); // Reset sort direction on new upload
   };
 
   const handleProcessData = (phoneCol, bundleCol) => {
@@ -131,12 +133,18 @@ function App() {
       alert('Please select a bundle column to sort');
       return;
     }
+    const newDirection = sortDirection === 'desc' ? 'asc' : 'desc';
     const updated = [...processedData].sort((a, b) => {
       const aVal = parseFloat(a[bundleColumn]) || 0;
       const bVal = parseFloat(b[bundleColumn]) || 0;
-      return bVal - aVal;
+      if (newDirection === 'desc') {
+        return bVal - aVal; // Largest to smallest
+      } else {
+        return aVal - bVal; // Smallest to largest
+      }
     });
     setProcessedData(updated);
+    setSortDirection(newDirection);
   };
 
   return (
@@ -168,6 +176,7 @@ function App() {
                 onRemoveDuplicates={handleRemoveDuplicates}
                 onSortByBundle={handleSortByBundle}
                 bundleColumn={bundleColumn}
+                sortDirection={sortDirection}
               />
             )}
             <DataPreview

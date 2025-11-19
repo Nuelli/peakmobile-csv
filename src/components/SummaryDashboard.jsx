@@ -1,7 +1,7 @@
 import React from 'react';
-import { BarChart3, AlertTriangle, CheckCircle, Trash2, SortAsc } from 'lucide-react';
+import { BarChart3, AlertTriangle, CheckCircle, Trash2, SortAsc, SortDesc } from 'lucide-react';
 
-function SummaryDashboard({ stats, onRemoveDuplicates, onSortByBundle, bundleColumn }) {
+function SummaryDashboard({ stats, onRemoveDuplicates, onSortByBundle, bundleColumn, sortDirection }) {
   if (!stats) return null;
 
   const validPercentage = stats.totalRecords > 0 ? Math.round((stats.validRecords / stats.totalRecords) * 100) : 0;
@@ -75,9 +75,10 @@ function SummaryDashboard({ stats, onRemoveDuplicates, onSortByBundle, bundleCol
         {stats.duplicateCount > 0 && (
           <button
             onClick={onRemoveDuplicates}
-            className="flex items-center gap-2 bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition"
-            onMouseEnter={(e) => e.target.style.backgroundColor = '#CC5801'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = '#ea580c'}
+            className="flex items-center gap-2 text-white font-semibold py-2 px-4 rounded-lg transition"
+            style={{ backgroundColor: '#151E3D' }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#a84a03ff'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
           >
             <Trash2 className="w-4 h-4" />
             Remove Duplicates ({stats.duplicateCount})
@@ -88,10 +89,14 @@ function SummaryDashboard({ stats, onRemoveDuplicates, onSortByBundle, bundleCol
             onClick={onSortByBundle}
             className="flex items-center gap-2 text-white font-semibold py-2 px-4 rounded-lg transition"
             style={{ backgroundColor: '#151E3D' }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = '#CC5801'}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#a84a03ff'}
             onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
           >
-            <SortAsc className="w-4 h-4" />
+            {sortDirection === 'desc' ? (
+              <SortDesc className="w-4 h-4" />
+            ) : (
+              <SortAsc className="w-4 h-4" />
+            )}
             Sort by Bundle Size
           </button>
         )}

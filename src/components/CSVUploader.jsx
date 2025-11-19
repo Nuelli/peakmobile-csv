@@ -62,7 +62,7 @@ function CSVUploader({ onUpload }) {
               onClick={() => fileInputRef.current?.click()}
               className="text-white font-semibold py-3 px-6 rounded-lg transition"
               style={{ backgroundColor: '#151E3D' }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#CC5801'}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#a84a03ff'}
               onMouseLeave={(e) => e.target.style.backgroundColor = '#151E3D'}
             >
               Choose CSV File
